@@ -54,7 +54,8 @@ public class GPMathProblem extends GPProblem {
 				new Multiply(config, CommandGene.FloatClass),
 				new Divide(config, CommandGene.FloatClass),
 				new Pow(config, CommandGene.FloatClass),
-				new Exp(config, CommandGene.FloatClass),
+//				new Exp(config, CommandGene.FloatClass),
+				new Log(config, CommandGene.FloatClass),
 				// Use terminal with possible value from 2.0 to 10.0 decimal
 				new Terminal(config, CommandGene.FloatClass, 2.0d, 10.0d, false), } };
 		

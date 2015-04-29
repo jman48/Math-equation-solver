@@ -15,6 +15,7 @@ import org.jgap.gp.impl.GPGenotype;
 public class SymbolicRegression {
 	
 	private static final String defaultFileName = "regression.txt";
+	private static final int maxGenerations = 2000;
 
 	public static void main(String[] args) throws InvalidConfigurationException, FileNotFoundException {
 		DataReader data;
@@ -33,15 +34,23 @@ public class SymbolicRegression {
 		GPConfiguration config = new GPConfiguration();
 		config.setGPFitnessEvaluator(new DeltaGPFitnessEvaluator());
 		config.setMaxInitDepth(6);
-		config.setPopulationSize(200);
+		config.setPopulationSize(100);
 		config.setFitnessFunction(new GPMathProblem.FunctionFitnessFormula());
-		config.setMutationProb(2f);
-		config.setCrossoverProb(1.2f);
+//		config.setMutationProb(1f);
+		config.setCrossoverProb(90f);
 		GPMathProblem problem = new GPMathProblem(config, data.getX(), data.getY());
 		GPGenotype gp = problem.create();
 		
 		gp.setVerboseOutput(true);
-		gp.evolve(5000);
+		
+		System.out.println("Evolving to a maximum of " + maxGenerations + " generations");
+		for(int i = 0; i < maxGenerations; i++) {
+			gp.evolve(1);
+			if(gp.getAllTimeBest() != null && gp.getAllTimeBest().getFitnessValue() == 0) {
+				System.out.println("\nFound a program with fitness of 0.0 after " + i + " generations\n");
+				break;
+			}
+		}
 		gp.outputSolution(gp.getAllTimeBest());  
 	}
 
